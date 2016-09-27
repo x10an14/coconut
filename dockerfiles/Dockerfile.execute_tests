@@ -1,0 +1,20 @@
+# This install is NOT minimal!
+#   TODO: Minimize the docker container
+FROM python:3
+MAINTAINER x10an14
+
+# Ideally only copy what's required for `make install`
+# to run successfully, but until that's been figured out,
+# copy entire source code directory into container image.
+#
+# (Even though that perhaps ought to be last step before
+# ENTRYPOINT):
+ADD . /usr/coconut
+WORKDIR /usr/coconut
+
+# Install pip requirements needed for tests
+RUN make install
+
+# Execute tests
+ENTRYPOINT ["make", "test"]
+
