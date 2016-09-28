@@ -4,9 +4,15 @@ FROM alpine:3.4
 MAINTAINER x10an14
 
 RUN apk add --no-cache \
+    musl-dev \
+    linux-headers \
+    bash \
     git \
     gcc \
-    make \
+    g++ \
+    make
+
+RUN apk add --no-cache \
     libzmq \
     python3 \
     python3-dev
@@ -21,7 +27,11 @@ ADD . /usr/coconut
 WORKDIR /usr/coconut
 
 # install
-RUN make dev
+RUN pip install --upgrade pip
+
+RUN pip install --upgrade -e .[dev]
+
+#RUN pre-commit install -f --install-hooks
 
 # Open a console with current (source-code)
 # version of Coconut
