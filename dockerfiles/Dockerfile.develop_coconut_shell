@@ -1,0 +1,16 @@
+# This install is NOT minimal!
+#   TODO: Minimize the docker container
+from python:3
+MAINTAINER x10an14
+
+# Copy source-code into docker image
+ADD . /usr/coconut
+WORKDIR /usr/coconut
+
+# install
+RUN make dev
+
+# Open a console with current (source-code)
+# version of Coconut
+ENTRYPOINT ["python3", "coconut/main.py"]
+
