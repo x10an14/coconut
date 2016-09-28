@@ -1,0 +1,12 @@
+# This install is NOT minimal!
+#   TODO: Minimize the docker container
+from python:3
+MAINTAINER x10an14
+
+WORKDIR /usr/
+
+RUN pip3 install coconut[jupyter]
+
+ENTRYPOINT ["coconut"]
+CMD ["--jupyter", "console"]
+
