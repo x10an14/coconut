@@ -1,7 +1,14 @@
 # This install is NOT minimal!
 #   TODO: Minimize the docker container
-from python:3
+FROM debian:8.5
 MAINTAINER x10an14
+
+RUN apt-get update && apt-get install -y \
+git \
+python3 \
+python3-pip
+
+RUN ln -sf /usr/bin/pip3 /usr/bin/pip
 
 # Copy source-code into docker image
 ADD . /usr/coconut
