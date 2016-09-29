@@ -5,7 +5,7 @@ MAINTAINER x10an14
 
 WORKDIR /usr/
 
-RUN pip3 install coconut[ipython]
+RUN pip3 install coconut-develop jupyter
 
 ENTRYPOINT ["coconut"]
 CMD ["--ipython", "console"]
