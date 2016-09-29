@@ -1,7 +1,7 @@
 language: python
 notifications:
   email: false
-sudo: false
+sudo: required
 cache: pip
 python:
 - '2.6'
@@ -11,11 +11,19 @@ python:
 - '3.4'
 - '3.5'
 - pypy3
+services:
+- docker
+before_install:
+- docker build -t coconut_tests -f dockerfiles/Dockerfile.execute_tests .
 install:
 - pip install "pip==7.1.2"
 - make
 script:
-- make test
+- docker run coconut_tests
+# ensure that our container ran, and it's the only one that got run
+- [[ $(docker ps -aq | wc -l) == 1 ]]
+# get log of container that ran tests    | get results-line in last 20 | ensure 'passed' substring | abort/fail if this line contains 'fail' substring
+- docker logs $(docker ps -aq) --tail 20 | grep ' seconds ===========' | grep -i 'passed' | grep -v 'fail'
 deploy:
   provider: pypi
   user: evhub-develop
@@ -25,3 +33,4 @@ deploy:
     distributions: sdist bdist_wheel
     repo: evhub/coconut
     branch: develop
+
